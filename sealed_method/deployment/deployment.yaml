@@ -21,7 +21,7 @@ spec:
         - containerPort: 8080
           name: http
 
-        # kubernetes原始的env, ConfigMap, Secret 三方式配置管理方法之一的env：使用上k apply -f orig_method/orig_secrets/sample-secret.yaml中的: github-regcred
+        # kubernetes原始的env, ConfigMap, Secret 三方式配置管理方法之一的env：使用上k apply -f orig_method/deployment/sample-secret.yaml（不要手动执行）中的: github-regcred
         env:
           - name: PASSWORD
             valueFrom:
