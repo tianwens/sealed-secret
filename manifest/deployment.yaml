@@ -20,13 +20,28 @@ spec:
         ports:
         - containerPort: 8080
           name: http
+
+        # kubernetes原始的env, ConfigMap, Secret 三方式配置管理方法之一的Secret：与下面的volumes段搭配，使用上k apply -f sealed-secret/orig_secrets/image-pull-secret.yaml的
+        volumeMounts:
+        - name: pullImageFiles
+          mountPath: /docker-entrypoint-initdb.d
+
+        # kubernetes原始的env, ConfigMap, Secret 三方式配置管理方法之一的env：使用上k apply -f sealed-secret/orig_secrets/sample-secret.yaml中的: github-regcred
         env:
           - name: PASSWORD
             valueFrom:
               secretKeyRef:
                 key: password
                 name: sample-secret
+
+      volumes:
+        - name: pullImageFiles
+          configMap:
+            # 对应sealed-secret/orig_secrets/image-pull-secret.yaml中的name: github-regcred
+            name: github-regcred
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
