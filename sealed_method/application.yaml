@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: spring-demo
+  namespace: argocd
+spec:
+   project: default
+   # 代码仓库及应用定义等（来源）
+   source:
+     # 替换为你的 Git 仓库地址，注意将仓库权限设置为公开，并使用 https 协议
+     repoURL: https://github.com/tianwens/sealed-secret.git
+     targetRevision: HEAD
+     path: sealed_method/deployment  # 根据这个目录里的yaml文件来部署
+   # 部署到哪去
+   destination:
+     server: https://kubernetes.default.svc
+     namespace: secret-demo
+   syncPolicy:
+     automated:
+       prune: false
+       selfHeal: false
+     syncOptions:
+      - CreateNamespace=true
